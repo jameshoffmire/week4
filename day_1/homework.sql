@@ -39,15 +39,13 @@ WHERE last_name LIKE 'William%';
 -- but two customers have a last name that begins with 'William'
 
 -- 5. What store employee (get the id) sold the most rentals? 
-SELECT staff_id, COUNT(*)
+SELECT rental.staff_id, first_name, last_name, COUNT(*)
 FROM rental
-GROUP BY staff_id
+LEFT JOIN staff ON staff.staff_id = rental.staff_id
+GROUP BY rental.staff_id, first_name, last_name
 ORDER BY COUNT(*) DESC
-LIMIT 2;
+LIMIT 1;
 
-SELECT first_name, last_name, staff_id
-FROM staff
-WHERE staff_id = 1;
 -- answer: "Mike"	"Hillyer"	1
 
 -- 6. How many different district names are there? 
@@ -58,15 +56,16 @@ FROM address;
 
 
 -- 7. What film has the most actors in it? (use film_actor table and get film_id) 
-SELECT film_id, COUNT(*)
+SELECT film_actor.film_id, title, COUNT(*)
 FROM film_actor
-GROUP BY film_id
+LEFT JOIN film
+GROUP BY film_actor.film_id, title
 ORDER BY COUNT(*) DESC
 LIMIT 1;
 -- output: film_id 508, count 15
-SELECT title
-FROM film
-WHERE film_id = 508;
+--SELECT title
+--FROM film
+--WHERE film_id = 508;
 -- answer: Lambs Cincinatti
 
 
